@@ -1,4 +1,6 @@
 import { useState } from "react";
+import './Attendance.css';
+
 
 const Attendance=()=>{
     const[employee,setEmployee]= useState([
@@ -8,22 +10,32 @@ const Attendance=()=>{
            {id:4,name:"Hashini",status:"pending"}
     ]);
 
-    const updateStatus=(id,)=>{
+    const updateStatus=(id,newStatus)=>{
+        
+        const updateEmployee=employee.map((e)=>(
+            e.id===id?
+            {...e,status:newStatus}:e
 
+        ))
+        setEmployee(updateEmployee)
     }
+
+    const presentCount= employee.filter((e)=>e.status=="present").length
+
+    const absentCount=employee.filter((e)=>e.status=="absent").length
 
 
     return(
         <>
         <h1>Attendance</h1>
 
-        <table>
+        <table border={1}>
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>NAME</th>
                     <th>STATUS</th>
-                    <th>ATTENDANCE</th>
+                    <th colSpan={2}>ATTENDANCE</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,9 +44,9 @@ const Attendance=()=>{
                         <tr key={index}>
                             <td>{emp.id}</td>
                             <td>{emp.name}</td>
-                            <td>{emp.status}</td>
-                            <td><button onClick={()=>updateStatus(emp.id,"present")}>present</button></td>
-                             <td><button onClick={()=>updateStatus(emp.id,"absent")}>absent</button></td>
+                            <td>{emp.status === "present"?"✅ Present": emp.status ==="absent"?  "❌ Absent" : "pending"}</td>
+                            <td><button  className="present"onClick={()=>updateStatus(emp.id,"present")}>present</button></td>
+                             <td><button className="absent" onClick={()=>updateStatus(emp.id,"absent")}>absent</button></td>
 
                         </tr>
         
@@ -43,6 +55,12 @@ const Attendance=()=>{
             </tbody>
 
         </table>
+        <div className="summary">
+            <h3>present:{presentCount} </h3>
+        <h3>absent:{absentCount}</h3>
+
+        </div>
+        
         </>
     )
 }
