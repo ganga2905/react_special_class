@@ -1,20 +1,24 @@
 import React from 'react'
-import './Navbar.css'
+import './Navbar.css';
+import logo from '../assets/logo.png'
+import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({cartCount}) => {
 
   return (
-    <nav className='navbar'>
+    <div className='nav'>
         <div className='logo'>
-            Sweets
+            <img src={logo} alt="logo"/>
         </div>
+        <nav className='navlink'>
+            <ul>
+                <li><Link to={'/'}>Home</Link></li>
+                <li><Link to={'/cart'}>cart({cartCount})</Link></li>
+            </ul>
+        </nav>
+        
 
-        <ul>
-            <li>Home</li>
-            <li>Contacts</li>
-            <li className='carts'>Cart </li>
-        </ul>
-    </nav>
+    </div>
   )
 }
 
